@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+<!-- 
+  - This file is included by the struts.xml file as an example
+  - of how to break up the configuration file into multiple files.
+-->
+<struts>
+    <package name="example" namespace="/example" extends="struts-default">
+
+        <default-action-ref name="HelloWorld" />
+
+        <action name="HelloWorld" class="it.polito.ai.struts2v1.example.HelloWorld">
+            <result>/example/HelloWorld.jsp</result>
+        </action>
+
+        <action name="Login_*" method="{1}" class="it.polito.ai.struts2v1.example.Login">
+            <result name="input">/example/Login.jsp</result>
+            <result name="success">lista_prenotazioni.jsp</result>
+        </action>
+         
+        <action name="register"  class="it.polito.ai.struts2v1.example.Register">
+            <result name="input">/example/register.jsp</result>
+            <result name="success">registration_confirmed.jsp</result>
+        </action>
+        
+         <action name="profile"  class="it.polito.ai.struts2v1.example.Profile">
+            <result name="input">/example/lista_prenotazioni.jsp</result>
+            <result name="success">profile.jsp</result>
+        </action>
+        
+        
+        <action name="Logout"  class="it.polito.ai.struts2v1.example.Logout">
+            <result name="success">lista_prenotazioni.jsp</result>
+        </action>
+
+        <action name="*" class="it.polito.ai.struts2v1.example.ExampleSupport">
+            <result>/example/{1}.jsp</result>
+        </action>
+
+        <!-- Add additional "example" package actions here. -->
+
+    </package>
+</struts>
