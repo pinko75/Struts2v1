@@ -1,5 +1,7 @@
 package it.polito.ai.struts2v1.example;
 
+import it.polito.ai.struts2v1.example.dal.UserDao;
+import it.polito.ai.struts2v1.example.dal.UserDaoImpl;
 import it.polito.ai.struts2v1.example.model.User;
 
 import java.util.HashMap;
@@ -9,20 +11,10 @@ import com.opensymphony.xwork2.ActionContext;
 
 public class Register extends ExampleSupport {
 	public String execute() throws Exception {
-		
-		Map session = (Map) ActionContext.getContext().get("session");
-		Map<String, User> userDB = (Map<String, User>)session.get("UserDB");
-		if (userDB == null){
-			System.out.println("creating userDB");
-			userDB = new HashMap<String, User>();
-			session.put("UserDB", userDB);
-		}
 		User u = new User(getUsername(), getPassword());
-		userDB.put(getUsername(), u);
-		//test
-		Map<String, User> testuserDB = (Map<String, User>)session.get("UserDB");
-		User us = testuserDB.get(getUsername());
-		System.out.println(us.getUsername() + " " + getPassword());
+		UserDao udao = new UserDaoImpl();
+		udao.createUser(getUsername(), getPassword());
+		
 		return SUCCESS;
 	}
 

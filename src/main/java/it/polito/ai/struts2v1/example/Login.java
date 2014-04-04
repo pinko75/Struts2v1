@@ -21,10 +21,13 @@
 
 package it.polito.ai.struts2v1.example;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 
+import it.polito.ai.struts2v1.example.dal.UserDao;
+import it.polito.ai.struts2v1.example.dal.UserDaoImpl;
 import it.polito.ai.struts2v1.example.model.User;
 
 public class Login extends ExampleSupport {
@@ -40,7 +43,7 @@ public class Login extends ExampleSupport {
         
         if (user == null)  return INPUT;
             	
-        if (!getPassword().equals(user.getPassword()))  return INPUT;
+       // if (!getPassword().equals(user.getPassword()))  return INPUT;
         
         Map session = (Map) ActionContext.getContext().get("session");
         
@@ -49,21 +52,12 @@ public class Login extends ExampleSupport {
         return SUCCESS;
     }
 
-    private User fetchUser(String uname) {
-
-        Map session = (Map) ActionContext.getContext().get("session");
-    	Map<String, User> userDB = (Map<String, User>)session.get("UserDB");
+    private User fetchUser(String uname) throws SQLException {
     	User u = null;
-    	if ( userDB != null)
-    	    u = userDB.get(uname);
+    	UserDao udao = new UserDaoImpl();
+    	u = udao.getUser(uname);
     	
-    	System.out.println("u: " + u);
-    	System.out.println("userDB: " + userDB);
-    	
-    	if (userDB == null || u == null)
-    	    return new User("test12", "test12");
-    	else 
-    		return u;
+   		return u;
 	}
 
 	private boolean isInvalid(String value) {
