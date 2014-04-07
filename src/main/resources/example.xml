@@ -25,13 +25,17 @@
             <result name="success">registration_confirmed.jsp</result>
         </action>
         
-         <action name="profile"  class="it.polito.ai.struts2v1.example.Profile">
+         <action name="Profile"  class="it.polito.ai.struts2v1.example.Profile">
             <result name="input">/example/lista_prenotazioni.jsp</result>
-            <result name="success">profile.jsp</result>
+            <result name="success">Profile.jsp</result>
         </action>
         
         
         <action name="Logout"  class="it.polito.ai.struts2v1.example.Logout">
+            <result name="success">lista_prenotazioni.jsp</result>
+        </action>
+
+        <action name="retrieveBookings"  class="it.polito.ai.struts2v1.example.RetrieveBookings">
             <result name="success">lista_prenotazioni.jsp</result>
         </action>
 

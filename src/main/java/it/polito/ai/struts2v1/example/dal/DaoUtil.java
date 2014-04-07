@@ -22,10 +22,10 @@ public class DaoUtil {
 	}
 	
 	public static Connection getConnection() throws SQLException{
-		Connection conn = DriverManager.getConnection("jdbc:hsqldb:file:"
-                + "test",     
-                "sa",                     
-                "");                      
+		Connection conn = DriverManager.getConnection("jdbc:hsqldb:hsql://localhost/"
+				                 + "Sale",     
+				                 "sa",                     
+				                 "");                        
 		return conn;
 	}
 	

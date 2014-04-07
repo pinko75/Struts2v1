@@ -1,12 +1,11 @@
 package it.polito.ai.struts2v1.example.dal;
 
+import it.polito.ai.struts2v1.example.model.User;
+
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
-import it.polito.ai.struts2v1.example.model.User;
 
 public class UserDaoImpl implements UserDao{
 	private DaoUtil daoUtil;
@@ -18,14 +17,6 @@ public class UserDaoImpl implements UserDao{
 			e.printStackTrace();
 		}
 		daoUtil = new DaoUtil();
-	}
-
-	Connection getConnection() throws SQLException{
-		Connection conn = DriverManager.getConnection("jdbc:hsqldb:"
-                + "Sale",     
-                "sa",                     
-                "");                      
-		return conn;
 	}
 	
 	public User getUser(String username) throws SQLException {
@@ -40,16 +31,23 @@ public class UserDaoImpl implements UserDao{
 			st = c.createStatement();
 			rs = st.executeQuery(sql);
 			
-			if ( rs.next()){
+			if (rs != null && rs.next()){
 				u = new User(rs.getString(2));
 			}	
 			
 			return u;
+		}catch(SQLException e){
+            e.printStackTrace();
+            throw e;
 		}finally{
-			rs.close();
-			st.close();
-			c.close();
+			if (rs != null)
+			    rs.close();
 			
+			if (st != null)
+			    st.close();
+			
+			if (c != null)
+			    c.close();
 		}
 	}
 
@@ -60,7 +58,6 @@ public class UserDaoImpl implements UserDao{
 
 	public User createUser(String username, String password) throws SQLException {
 		Statement st = null;
-	    int res;
 		Connection c = null;
         User u = null;
         
@@ -69,7 +66,7 @@ public class UserDaoImpl implements UserDao{
     	try {
 			c = DaoUtil.getConnection();
 			st = c.createStatement();
-			res = st.executeUpdate(sql);
+			st.executeUpdate(sql);
 			u = new User(username, password);
 			return u;
 		}finally{

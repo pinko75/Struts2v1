@@ -1,6 +1,16 @@
 <!DOCTYPE HTML>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page import="it.polito.ai.struts2v1.example.service.BookingService" %>
+<%@ page import="it.polito.ai.struts2v1.example.service.BookingServiceImpl" %>
+<%@ page import="it.polito.ai.struts2v1.example.model.Booking" %>
+<%@ page import="java.util.List" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="s" uri="/struts-tags" %>
+
+<%
+    BookingService service = new BookingServiceImpl();
+    List<Booking> bookings = service.getAllBookings();
+%>
 <html>
 <head>
 
@@ -38,7 +48,9 @@ table.gridtable td {
 	        <% if (session.getAttribute("loggedin") != null){
              %>
                 <td>Welcome back, <%=session.getAttribute("loggedin") %></td>
-                <td><a href="<s:url action="Profile"/>">Profile</a></td>
+                <td><a href="<s:url action="Profile">
+                                  <s:param name="username"><%=session.getAttribute("loggedin") %></s:param>
+                             </s:url>">Profile</a></td>
                 <td><a href="<s:url action="ListMyBookings"/>">My Bookings</a></td>
                 <td><a href="<s:url action="Logout"/>">Log out</a></td>
              <%
@@ -61,16 +73,14 @@ table.gridtable td {
 			<th>Intervallo</th>
 			<th>Utente</th>
 		</tr>
+		
+		<% for(Booking b: bookings) { %>
 		<tr>
-			<td>21/1/2014</td>
-			<td>8:00 - 9:00</td>
-			<td>John Smith</td>
+		     <td><%=b.getDay() %></td>
+		     <td><%=b.getStartTime() %> - <%=b.getEndTime() %></td>
+		     <td><%=b.getUserName() %></td>
 		</tr>
-		<tr>
-			<td>3/4/2014</td>
-			<td>12:00 - 13:00</td>
-			<td>Frank Grand</td>
-		</tr>
+		<% } %>
 	</table>
     <br>
     <table class="gridtable">
