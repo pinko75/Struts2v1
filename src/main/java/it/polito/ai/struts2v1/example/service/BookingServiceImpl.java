@@ -18,4 +18,13 @@ public class BookingServiceImpl implements BookingService {
 	    return dao.findAllBookings();	
 	}
 
+	public void bookNew(Booking b) throws SQLException {
+		dao.bookNew(b);
+	}
+
+	public void deleteBooking(int bid) throws SQLException {
+		dao.deleteBooking(bid);
+		
+	}
+
 }

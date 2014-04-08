@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface BookingService {
     public List<Booking> getAllBookings() throws SQLException; 
+    public void bookNew(Booking b) throws SQLException;
+	public void deleteBooking(int bid) throws SQLException;
 }

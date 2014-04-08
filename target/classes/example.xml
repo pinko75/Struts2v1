@@ -39,6 +39,16 @@
             <result name="success">lista_prenotazioni.jsp</result>
         </action>
 
+        <action name="BookNew"  class="it.polito.ai.struts2v1.example.BookNew">
+            <result name="input">/example/Book_New.jsp</result>
+            <result name="success">lista_prenotazioni.jsp</result>
+        </action>
+        
+        <action name="RemoveBooking"  class="it.polito.ai.struts2v1.example.RemoveBooking">
+            <result name="input">/example/lista_prenotazioni.jsp</result>
+            <result name="success">lista_prenotazioni.jsp</result>
+        </action>
+        
         <action name="*" class="it.polito.ai.struts2v1.example.ExampleSupport">
             <result>/example/{1}.jsp</result>
         </action>

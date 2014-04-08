@@ -1,9 +1,9 @@
 package it.polito.ai.struts2v1.example.dal;
 
 import it.polito.ai.struts2v1.example.model.Booking;
-import it.polito.ai.struts2v1.example.model.User;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,7 +24,7 @@ public class BookingDaoImpl implements BookingDao {
 	    ResultSet rs = null;
 		Connection c = null;
 		List<Booking> bookings = new ArrayList<Booking>();
-		String sql = "select BDATE, SLOT_START_TIME, SLOT_END_TIME, NAME, ROOM_ID from BOOKING, BUSER";
+		String sql = "select BOOKING_ID, BDATE, SLOT_START_TIME, SLOT_END_TIME, NAME, ROOM_ID from BOOKING, BUSER where Booking.BUSER_ID = BUSER.BUSER_ID";
 		try {
 			c = DaoUtil.getConnection();
 			st = c.createStatement();
@@ -32,6 +32,7 @@ public class BookingDaoImpl implements BookingDao {
 			Booking b = null;
 			while (rs.next()){
 				b = new Booking();
+				b.setBookingId(rs.getInt("BOOKING_ID"));
 				b.setDate(rs.getTimestamp("BDATE"));
 				b.setStartTime(rs.getTime("SLOT_START_TIME"));
 				b.setEndTime(rs.getTime("SLOT_END_TIME"));
@@ -50,6 +51,43 @@ public class BookingDaoImpl implements BookingDao {
 			
 			if (st != null)
 			    st.close();
+			
+			if (c != null)
+			    c.close();
+		}
+	}
+	
+	public void bookNew(Booking b) throws SQLException {
+		Connection c = null;
+		Statement statement = null;
+        try{
+            int nextId = new DaoUtil().getNextIdVal(Booking.class);
+            String sql = "INSERT INTO BOOKING(BOOKING_ID, BDATE, SLOT_START_TIME, SLOT_END_TIME, ROOM_ID, BUSER_ID) "
+            		+ " VALUES(" + nextId + ",'" + new java.sql.Date(b.getDay().getTime()) + "','" + b.getStartTime() + "','"  +b.getEndTime() + "'," + b.getRoomId() + "," + "(select buser_id from buser where name ='" +  b.getUserName() + "'))";
+            c = DaoUtil.getConnection();
+            statement = c.createStatement();
+            statement.executeUpdate(sql);
+        } finally{
+			
+			if (statement != null)
+				statement.close();
+			
+			if (c != null)
+			    c.close();
+		}
+	}
+	public void deleteBooking(int bid) throws SQLException {
+		Connection c = null;
+		Statement statement = null;
+		try{
+		    String sql = "delete from Booking where booking_id=" + bid;
+		    c = DaoUtil.getConnection();
+            statement = c.createStatement();
+            statement.executeUpdate(sql);
+		} finally{
+			
+			if (statement != null)
+				statement.close();
 			
 			if (c != null)
 			    c.close();
