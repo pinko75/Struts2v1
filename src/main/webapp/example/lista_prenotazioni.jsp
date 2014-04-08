@@ -78,10 +78,10 @@ table.gridtable td {
 			<th>Room <%=r.getRoomId() %></th>
 		</tr>
 		<tr>
-			<th>Data</th>
-			<th>Intervallo</th>
-			<th>Utente</th>
-			<th>Utente</th>
+			<th>Date</th>
+			<th>Slot</th>
+			<th>User</th>
+			
 		</tr>
 		
 		<% for(Booking b: bookings) { %>
@@ -90,9 +90,11 @@ table.gridtable td {
 				     <td><%=b.getDay() %></td>
 				     <td><%=b.getStartTime() %> - <%=b.getEndTime() %></td>
 				     <td><%=b.getUserName() %></td>
+				     <% if (b.getUserName().equals(session.getAttribute("loggedin"))) { %>
 				     <td><a href="<s:url action="RemoveBooking">
                                   <s:param name="bid"><%=b.getBookingId() %></s:param>
-                             </s:url>">Delete</a></td>
+                                  </s:url>">Delete</a></td>
+                     <% } %>
 				</tr>
 		     <% } %> 		
 		<br>
