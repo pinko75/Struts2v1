@@ -14,6 +14,8 @@
  
     <h1>Profile page</h1>
     <p> <b> Username: </b><%  out.print(u.getUsername()); %>
+    <p> <b> Name: </b><%  out.print(u.getName()); %>
+    <p> <b> Email: </b><%  out.print(u.getEmail()); %>
     <br/>
     <br/>
     <a href="lista_prenotazioni.jsp">Home</a>

@@ -21,7 +21,7 @@
         </action>
          
         <action name="register"  class="it.polito.ai.struts2v1.example.Register">
-            <result name="input">/example/register.jsp</result>
+            <result name="input">/example/Register.jsp</result>
             <result name="success">registration_confirmed.jsp</result>
         </action>
         

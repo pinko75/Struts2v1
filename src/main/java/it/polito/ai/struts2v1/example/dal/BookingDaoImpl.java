@@ -24,7 +24,7 @@ public class BookingDaoImpl implements BookingDao {
 	    ResultSet rs = null;
 		Connection c = null;
 		List<Booking> bookings = new ArrayList<Booking>();
-		String sql = "select BOOKING_ID, BDATE, SLOT_START_TIME, SLOT_END_TIME, NAME, ROOM_ID from BOOKING, BUSER where Booking.BUSER_ID = BUSER.BUSER_ID";
+		String sql = "select BOOKING_ID, BDATE, SLOT_START_TIME, SLOT_END_TIME, USERNAME, ROOM_ID from BOOKING, BUSER where Booking.BUSER_ID = BUSER.BUSER_ID";
 		try {
 			c = DaoUtil.getConnection();
 			st = c.createStatement();
@@ -37,7 +37,7 @@ public class BookingDaoImpl implements BookingDao {
 				b.setStartTime(rs.getTime("SLOT_START_TIME"));
 				b.setEndTime(rs.getTime("SLOT_END_TIME"));
 				b.setRoomId(rs.getInt("ROOM_ID"));
-				b.setUserName(rs.getString("NAME"));
+				b.setUserName(rs.getString("USERNAME"));
 				bookings.add(b);
 			}	
 			
@@ -63,7 +63,8 @@ public class BookingDaoImpl implements BookingDao {
         try{
             int nextId = new DaoUtil().getNextIdVal(Booking.class);
             String sql = "INSERT INTO BOOKING(BOOKING_ID, BDATE, SLOT_START_TIME, SLOT_END_TIME, ROOM_ID, BUSER_ID) "
-            		+ " VALUES(" + nextId + ",'" + new java.sql.Date(b.getDay().getTime()) + "','" + b.getStartTime() + "','"  +b.getEndTime() + "'," + b.getRoomId() + "," + "(select buser_id from buser where name ='" +  b.getUserName() + "'))";
+            		+ " VALUES(" + nextId + ",'" + new java.sql.Date(b.getDay().getTime()) + "','" + b.getStartTime() + "','"  +b.getEndTime() + "'," + b.getRoomId() + "," + "(select buser_id from buser where username ='" +  b.getUserName() + "'))";
+            System.out.println(sql);
             c = DaoUtil.getConnection();
             statement = c.createStatement();
             statement.executeUpdate(sql);

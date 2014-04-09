@@ -35,15 +35,19 @@ public class Login extends ExampleSupport {
     public String execute() throws Exception {
         
         
-        if (isInvalid(getUsername())) return INPUT;
-
-        if (isInvalid(getPassword())) return INPUT;
+        if (isInvalid(getUsername()) || isInvalid(getPassword()) ) return INPUT;
         
         User user = fetchUser(getUsername());
         
-        if (user == null)  return INPUT;
-            	
-       // if (!getPassword().equals(user.getPassword()))  return INPUT;
+        if (user == null) {
+        	System.out.println(user);
+        	return INPUT;
+        }
+        
+        if (!getPassword().equals(user.getPassword())) {
+        	System.out.println("passw different: " + getPassword() + " " + user.getPassword());
+        	return INPUT;
+        }
         
         Map session = (Map) ActionContext.getContext().get("session");
         

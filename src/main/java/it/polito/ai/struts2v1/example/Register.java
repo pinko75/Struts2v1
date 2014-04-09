@@ -6,15 +6,30 @@ import it.polito.ai.struts2v1.example.model.User;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.opensymphony.xwork2.ActionContext;
 
 public class Register extends ExampleSupport {
 	public String execute() throws Exception {
-		User u = new User(getUsername(), getPassword());
-		UserDao udao = new UserDaoImpl();
-		udao.createUser(getUsername(), getPassword());
+		System.out.println(getUsername() + getPassword() + getConfirm_password() + getEmail() + getName());
+		System.out.println(isInvalid(getUsername()));
+		System.out.println(isInvalid(getPassword()));
+		System.out.println(isInvalid(getConfirm_password()));
+		System.out.println(isInvalid(getEmail()));
+		System.out.println(isInvalid(getName()));
+		System.out.println(getPassword().equals(getConfirm_password()));
+		System.out.println(validateEmail(getEmail()));
 		
+		if (isInvalid(getUsername()) || isInvalid(getPassword()) || isInvalid(getConfirm_password()) ||  isInvalid(getEmail()) ||  isInvalid(getName())) return INPUT;
+		
+		if (!getPassword().equals(getConfirm_password())) return INPUT;
+		
+		if (!validateEmail(getEmail())) return INPUT;
+		
+		UserDao udao = new UserDaoImpl();
+		udao.createUser(getName(),getUsername(), getPassword(), getEmail());
 		return SUCCESS;
 	}
 
@@ -22,7 +37,24 @@ public class Register extends ExampleSupport {
 	String password;
 	String confirm_password;
 	String email;
-
+	String name;
+	private static final String EMAIL_PATTERN = 
+			"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
+			+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	private Pattern pattern;
+	private Matcher matcher;
+	
+	public boolean validateEmail(final String email) {
+		pattern = Pattern.compile(EMAIL_PATTERN);
+		matcher = pattern.matcher(email);
+		return matcher.matches();
+ 
+	}
+	
+	private boolean isInvalid(String value) {
+        return (value == null || value.length() == 0);
+    }
+	
 	public String getUsername() {
 		return username;
 	}
@@ -55,4 +87,11 @@ public class Register extends ExampleSupport {
 		this.email = email;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }

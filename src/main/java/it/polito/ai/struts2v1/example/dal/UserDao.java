@@ -9,7 +9,6 @@ public interface UserDao {
     
     public void deleteUser(String username);
     
-    public User createUser(String username, String password) throws SQLException;
-    
+    public User createUser(String name, String username, String password, String email) throws SQLException;
     
 }

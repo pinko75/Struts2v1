@@ -16,7 +16,7 @@ public class TestUserDao {
 	
 	@Test
 	public void createsAUser() throws Exception {
-		User u = userDao.createUser("Rocco", "Rocco");
-		assertEquals("Rocco", u.getUsername());
+		User u = userDao.createUser("Luigi", "lcelano", "password", "lcelano@email.com");
+		assertEquals("lcelano", u.getUsername());
 	}
 }
